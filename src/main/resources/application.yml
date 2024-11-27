@@ -1,0 +1,5 @@
+  spring:
+      application:
+        name: MUSphinxTest
+  server:
+    port: 8081
