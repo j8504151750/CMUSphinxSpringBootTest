@@ -12,21 +12,23 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Controller
 public class VoiceController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> upload(MultipartFile file) {
-        String tempFilePath = "D:/uploads/recorded_audio.wav"; // 保存的臨時音頻文件
+        Path tempDir = null;
 
         try {
-            // 保存錄音文件到磁碟
-            File uploadDir = new File("D:/uploads/");
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-            File tempFile = new File(tempFilePath);
+            // 動態創建臨時目錄
+            tempDir = Files.createTempDirectory("uploads");
+            File uploadDir = tempDir.toFile();
+
+            // 保存錄音文件到臨時目錄
+            File tempFile = new File(uploadDir, "audio.wav");
             file.transferTo(tempFile);
 
             // 配置 CMUSphinx
@@ -37,7 +39,7 @@ public class VoiceController {
 
             // 加載音頻進行語音識別
             StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
-            InputStream stream = new FileInputStream(tempFilePath);
+            InputStream stream = new FileInputStream(tempFile);
             recognizer.startRecognition(stream);
             SpeechResult result;
 
@@ -55,6 +57,15 @@ public class VoiceController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("處理語音失敗！");
+        } finally {
+            // 最後刪除臨時目錄
+            if (tempDir != null) {
+                try {
+                    Files.deleteIfExists(tempDir);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
