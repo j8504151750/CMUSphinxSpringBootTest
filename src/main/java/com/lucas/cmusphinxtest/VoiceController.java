@@ -52,7 +52,7 @@ public class VoiceController {
 
             StringBuilder resultText = new StringBuilder();
             while ((result = recognizer.getResult()) != null) {
-                System.out.println("識別結果: " + result.getHypothesis());
+//                System.out.println("識別結果: " + result.getHypothesis());
                 resultText.append(result.getHypothesis()).append("\n");
             }
             recognizer.stopRecognition();
