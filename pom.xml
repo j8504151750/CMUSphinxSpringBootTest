@@ -13,19 +13,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>CMUSphinxTest</name>
     <description>CMUSphinxTest</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -34,7 +21,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--        cmuphinx依賴    -->
+
+        <!-- cmuphinx依賴，來自自建的GitHub倉庫 -->
         <dependency>
             <groupId>edu.cmu.sphinx</groupId>
             <artifactId>sphinx4-core</artifactId>
@@ -73,7 +61,7 @@
     <repositories>
         <repository>
             <id>snapshots-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>https://raw.githubusercontent.com/j8504151750/sphinx4/master/m2-repo</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
